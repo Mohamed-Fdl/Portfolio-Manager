@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 
 type MailType = {
     subject : string,
+    attachment : string | null,
     html : string | {path : string}
 }
 
@@ -15,7 +16,7 @@ function Mailer(type : MailType,to : string){
 
     var transporter = nodemailer.createTransport({
         host: process.env.MAIL_HOST,
-        port: 587,
+        port: 578,
         secure: false,
         auth: {
             user: process.env.MAIL_USER,
@@ -27,7 +28,8 @@ function Mailer(type : MailType,to : string){
         from: process.env.MAIL_USER,
         to,
         subject: type.subject,
-        html: type.html
+        html: type.html,
+        attachment : type.attachment
     };
     
     transporter.sendMail(mailOptions, function(error, info){

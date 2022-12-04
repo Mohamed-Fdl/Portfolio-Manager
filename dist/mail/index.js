@@ -11,7 +11,7 @@ dotenv_1.default.config();
 function Mailer(type, to) {
     var transporter = nodemailer_1.default.createTransport({
         host: process.env.MAIL_HOST,
-        port: 587,
+        port: 578,
         secure: false,
         auth: {
             user: process.env.MAIL_USER,
@@ -22,7 +22,8 @@ function Mailer(type, to) {
         from: process.env.MAIL_USER,
         to,
         subject: type.subject,
-        html: type.html
+        html: type.html,
+        attachment: type.attachment
     };
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) {

@@ -96,6 +96,10 @@ Is about configurations to files uploads
 #### validators
 This directory contains two files : project.ts and user.ts.The user.ts export a function to validate user format data.The project.ts file do the same thing but in the case of project
 
+## Cron job
+I create a cron task to backup the db.sqlite file in a directory called db_backups.It save the db every first day of the mounth
+cron.js located at the ./src/cron.js
+
 
 
 

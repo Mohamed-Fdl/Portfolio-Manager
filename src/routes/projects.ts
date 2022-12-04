@@ -79,7 +79,7 @@ router.get('/:id',auth, async function (req : Request, res : Response)  : Promis
     }
 })
 
-router.get('/getUserProject/:email', async function (req : Request, res : Response)  : Promise<Response> {
+router.get('/getUserProjects/:email', async function (req : Request, res : Response)  : Promise<Response> {
     try {
         let user = await User.findOne({ where: { email: req.params.email}});
         

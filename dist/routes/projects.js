@@ -92,7 +92,7 @@ router.get('/:id', auth_1.default, function (req, res) {
         }
     });
 });
-router.get('/getUserProject/:email', function (req, res) {
+router.get('/getUserProjects/:email', function (req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             let user = yield User_1.default.findOne({ where: { email: req.params.email } });
