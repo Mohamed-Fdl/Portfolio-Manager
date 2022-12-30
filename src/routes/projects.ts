@@ -1,13 +1,14 @@
-import express, {Request,Response,Router} from 'express';
+import express, {Request,Response,Router} from 'express'
 import {sequelize} from '../starter/dbConnection'
-import {ProjectValidator,changeProjectVsibilityValidator} from '../helpers/validators/project';
-import User from '../models/User';
+import {ProjectValidator,changeProjectVsibilityValidator} from '../helpers/validators/project'
+import getImageLink from '../helpers/generalHelpers'
+import User from '../models/User'
 import dotenv from 'dotenv'
-import auth from '../middlewares/auth';
-import Project from '../models/Project';
-import { QueryTypes } from 'sequelize';
-import upload from '../helpers/multerConfig';
-import { userAccessProject } from '../middlewares/userAccessProject';
+import auth from '../middlewares/auth'
+import Project from '../models/Project'
+import { QueryTypes } from 'sequelize'
+import upload from '../helpers/multerConfig'
+import { userAccessProject } from '../middlewares/userAccessProject'
 
 //load env variables
 dotenv.config()
@@ -45,7 +46,7 @@ router.get('/',auth, async function (req : Request, res : Response)  : Promise<R
         const projects = await sequelize.query("SELECT * FROM `projects` WHERE UserId = ? ",{
             replacements: [req.user.data.id],
             type: QueryTypes.SELECT
-        });
+        })
         
         return res.status(200).json({
             error : false,
@@ -81,12 +82,12 @@ router.get('/:id',auth, async function (req : Request, res : Response)  : Promis
 
 router.get('/getUserProjects/:email', async function (req : Request, res : Response)  : Promise<Response> {
     try {
-        let user = await User.findOne({ where: { email: req.params.email}});
+        let user = await User.findOne({ where: { email: req.params.email}})
         
         const projects = await sequelize.query("SELECT * FROM `projects` WHERE UserId = ? AND visibility = ?",{
             replacements: [user?.id,true],
             type: QueryTypes.SELECT
-        });
+        })
 
         return res.status(200).json({
             error : false,
@@ -110,7 +111,7 @@ router.put('/:id',[auth,userAccessProject,upload.single('image')] ,async functio
     req.body.UserId = req.user.data.id
 
     if(req.file){
-        req.body.image = req.file.filename
+        req.body.image = getImageLink(req.file.filename)
     }
 
     try {
@@ -166,7 +167,7 @@ router.delete('/:id',[auth,userAccessProject] ,async function (req : Request, re
             where: {
                 id: req.params.id
             }
-        });
+        })
 
         return res.status(200).json({
             error : false,

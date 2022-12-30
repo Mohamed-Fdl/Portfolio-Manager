@@ -2,11 +2,11 @@ import {sequelize} from '../starter/dbConnection'
 
 import Project from './Project';
 
-import { Optional, Model, DataTypes,CreationOptional,InferAttributes,InferCreationAttributes,DataType  } from 'sequelize'
+import { Model, DataTypes,CreationOptional,InferAttributes,InferCreationAttributes  } from 'sequelize'
 
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
     declare id: CreationOptional<number>;
-    declare name: string;
+    declare lastname: string;
     declare firstname: string;
     declare email: string;
     declare password: string;
@@ -24,7 +24,7 @@ User.init({
         autoIncrement: true,
         primaryKey: true
     },
-    name: {
+    lastname: {
         type: new DataTypes.STRING,
         allowNull: false
     },

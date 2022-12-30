@@ -5,8 +5,6 @@ import User from '../models/User'
 import {omit} from 'underscore'
 import bcrypt from 'bcrypt'
 import dotenv from 'dotenv'
-import { Mailer } from '../mail'
-import {userRegisterMail} from '../mail/messages'
 
 //load env variable
 dotenv.config()
@@ -25,8 +23,6 @@ router.post('/register', async function (req : Request, res : Response)  : Promi
         req.body.password = hash  
     
         const user = await User.create(req.body);
-
-        Mailer(userRegisterMail(user.toJSON().name,user.toJSON().title),user.toJSON().email)
 
         return res.status(200).json({
             error : false,

@@ -3,7 +3,7 @@ const cron = require('node-cron');
 const process = require('process')
 
 
-function storeDbForBackup(dbPath = './src/db.sqlite', destDir = './src/db_backups') {
+function dbBackup(dbPath = './src/db.sqlite', destDir = './src/db_backups') {
     return fs.copyFile(dbPath, destDir + '/db-backup-at-' + Date.now() + '.sqlite', (err) => {
         if (err) {
             console.log(err)
@@ -15,5 +15,5 @@ function storeDbForBackup(dbPath = './src/db.sqlite', destDir = './src/db_backup
 }
 
 cron.schedule('0 0 1 * *', () => {
-    storeDbForBackup()
+    dbBackup()
 });

@@ -4,7 +4,7 @@ exports.loginUserValidator = exports.createUserValidator = void 0;
 const zod_1 = require("zod");
 // schema definition
 const createUserSchema = zod_1.z.object({
-    name: zod_1.z.string({ required_error: 'Name is required', invalid_type_error: 'Name must be a String' }).min(1, { message: 'Name is not allowed to be empty' }).trim(),
+    lastname: zod_1.z.string({ required_error: 'Lastname is required', invalid_type_error: 'Lastname must be a String' }).min(1, { message: 'Lastname is not allowed to be empty' }).trim(),
     firstname: zod_1.z.string({ required_error: 'Firstname is required', invalid_type_error: 'Firstname must be a String' }).min(1, { message: 'Firstname is not allowed to be empty' }).trim(),
     email: zod_1.z.string().email({ message: "Invalid email address" }),
     password: zod_1.z.string().min(8, { message: 'Password must exceed 08 characters' }),

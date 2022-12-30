@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dbConnection_1 = require("../starter/dbConnection");
 const project_1 = require("../helpers/validators/project");
+const generalHelpers_1 = __importDefault(require("../helpers/generalHelpers"));
 const User_1 = __importDefault(require("../models/User"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const auth_1 = __importDefault(require("../middlewares/auth"));
@@ -121,7 +122,7 @@ router.put('/:id', [auth_1.default, userAccessProject_1.userAccessProject, multe
             return res.status(400).json({ error: true, message: 'Bad request.Make sure you send good data format.', data: null });
         req.body.UserId = req.user.data.id;
         if (req.file) {
-            req.body.image = req.file.filename;
+            req.body.image = (0, generalHelpers_1.default)(req.file.filename);
         }
         try {
             yield Project_1.default.update(req.body, { where: { id: req.params.id } });

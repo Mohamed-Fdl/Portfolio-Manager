@@ -3,7 +3,7 @@ import { z } from "zod";
 
 // schema definition
 const createUserSchema = z.object({
-    name: z.string({required_error : 'Name is required',invalid_type_error : 'Name must be a String'}).min(1,{message : 'Name is not allowed to be empty'}).trim(),
+    lastname: z.string({required_error : 'Lastname is required',invalid_type_error : 'Lastname must be a String'}).min(1,{message : 'Lastname is not allowed to be empty'}).trim(),
     firstname: z.string({required_error : 'Firstname is required',invalid_type_error : 'Firstname must be a String'}).min(1,{message : 'Firstname is not allowed to be empty'}).trim(),
     email: z.string().email({ message: "Invalid email address" }),
     password: z.string().min(8,{message : 'Password must exceed 08 characters'}),

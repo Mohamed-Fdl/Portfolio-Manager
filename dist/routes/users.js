@@ -19,8 +19,6 @@ const User_1 = __importDefault(require("../models/User"));
 const underscore_1 = require("underscore");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const dotenv_1 = __importDefault(require("dotenv"));
-const mail_1 = require("../mail");
-const messages_1 = require("../mail/messages");
 //load env variable
 dotenv_1.default.config();
 let router = express_1.default.Router();
@@ -33,7 +31,6 @@ router.post('/register', function (req, res) {
             let hash = yield bcrypt_1.default.hash(req.body.password, Number(process.env.BCRYPT_SALT_ROUND));
             req.body.password = hash;
             const user = yield User_1.default.create(req.body);
-            (0, mail_1.Mailer)((0, messages_1.userRegisterMail)(user.toJSON().name, user.toJSON().title), user.toJSON().email);
             return res.status(200).json({
                 error: false,
                 message: 'User succesfullly registered.',
