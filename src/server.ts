@@ -17,6 +17,8 @@ import projects from './routes/projects'
 
 //serve static files at ./src/uploads
 app.use('/file',express.static('./src/uploads'))
+app.use(express.static('./src/public'))
+
 
 
 //middlewares 

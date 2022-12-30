@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1 id="portfolio-manager-api">PORTFOLIO MANAGER API</h1>
+    <p>This node/typescript project is about the API for managing portfolio realisations.You can create an account ,log in, add projects,manage their visibility</p>
+    <h2 id="environment-variables">Environment variables</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Comment</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>NODE_ENV</td>
+                <td>The node env mode</td>
+                <td>Development</td>
+            </tr>
+            <tr>
+                <td>MY_PORT</td>
+                <td>The port I use on my local computer</td>
+                <td>8000</td>
+            </tr>
+            <tr>
+                <td>APP_URL</td>
+                <td>The app url to access it</td>
+                <td><a href="http://localhost:8000">http://localhost:8000</a></td>
+            </tr>
+            <tr>
+                <td>JWT_SECRET</td>
+                <td>Toke to sign JWTs token</td>
+                <td>jmxJfFzADLL5lV2n9FEoBCdIGht9x2c</td>
+            </tr>
+            <tr>
+                <td>BCRYPT_SALT_ROUND</td>
+                <td>The salt round brcypt use to hash passwords of users</td>
+                <td>5</td>
+            </tr>
+        </tbody>
+    </table>
+    <h2 id="database-structure">Database structure</h2>
+    <p>I used a SQLITE database located in ./src/db.sqlite with the npm package named Sequelize</p>
+    <h3 id="collections">Collections</h3>
+    <p>I need to store users and their projects</p>
+    <h4 id="users">Users</h4>
+    <table>
+        <thead>
+            <tr>
+                <th>Field</th>
+                <th>Type</th>
+                <th>Comment</th>
+                <th>Example</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>lastname</td>
+                <td>STRING</td>
+                <td>The user lastname</td>
+                <td>Joe</td>
+            </tr>
+            <tr>
+                <td>firstname</td>
+                <td>STRING</td>
+                <td>The user firstname</td>
+                <td>Dalton</td>
+            </tr>
+            <tr>
+                <td>email</td>
+                <td>STRING</td>
+                <td>The user email</td>
+                <td><a href="mailto:&#106;&#111;&#x65;&#64;&#x67;&#x6d;&#x61;&#105;&#108;&#x2e;&#x63;&#x6f;&#x6d;">&#106;&#111;&#x65;&#64;&#x67;&#x6d;&#x61;&#105;&#108;&#x2e;&#x63;&#x6f;&#x6d;</a></td>
+            </tr>
+            <tr>
+                <td>password</td>
+                <td>STRING</td>
+                <td>The user password hashed with bcrypt</td>
+                <td>jmxJfFzADLL5lV2n9FEoBCdIGht9x2c</td>
+            </tr>
+            <tr>
+                <td>title</td>
+                <td>STRING</td>
+                <td>The user profile title</td>
+                <td>Data scientist</td>
+            </tr>
+            <tr>
+                <td>description</td>
+                <td>STRING</td>
+                <td>The user profile description</td>
+                <td>Some long description</td>
+            </tr>
+            <tr>
+                <td>isAdmin</td>
+                <td>BOOLEAN</td>
+                <td>True if user is admin &amp; false else</td>
+                <td>false</td>
+            </tr>
+        </tbody>
+    </table>
+    <h4 id="projects">Projects</h4>
+    <table>
+        <thead>
+            <tr>
+                <th>Field</th>
+                <th>Type</th>
+                <th>Comment</th>
+                <th>Example</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>name</td>
+                <td>STRING</td>
+                <td>The project name</td>
+                <td>API for portfolio management</td>
+            </tr>
+            <tr>
+                <td>description</td>
+                <td>STRING</td>
+                <td>The project description</td>
+                <td>Somme long description</td>
+            </tr>
+            <tr>
+                <td>stack</td>
+                <td>STRING</td>
+                <td>The stack of the project</td>
+                <td>HTML,JS,....</td>
+            </tr>
+            <tr>
+                <td>image</td>
+                <td>STRING</td>
+                <td>A preview as image of the project.After storing image ,system return the link to access it</td>
+                <td><a href="http://localhost:8000/file/image-1672387312388-550274169.webp">http://localhost:8000/file/image-1672387312388-550274169.webp</a></td>
+            </tr>
+            <tr>
+                <td>project_link</td>
+                <td>STRING</td>
+                <td>Url to access project</td>
+                <td><a href="https://github.com/Mohamed-Fdl/dali">https://github.com/Mohamed-Fdl/dali</a></td>
+            </tr>
+            <tr>
+                <td>visibility</td>
+                <td>BOOLEAN</td>
+                <td>True means it is public and everyone with your email can access it.</td>
+                <td>True</td>
+            </tr>
+            <tr>
+                <td>UserId</td>
+                <td>Number</td>
+                <td>Represent the owner of the project</td>
+                <td>2</td>
+            </tr>
+        </tbody>
+    </table>
+    <h2 id="middlewares">Middlewares</h2>
+    <p>In this application I have 02 middlewares</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Why</th>
+                <th>Comment</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Auth</td>
+                <td>Accept only connected user.For example non-user can&#39;t create a pproject</td>
+                <td>*Check if there is the header x-auth-token *Verify it and continue the request *If it is a invalid token or there is not x-auth-token ,the request is does not pass</td>
+            </tr>
+            <tr>
+                <td>UserAccessProject</td>
+                <td>User can&#39;t access other project</td>
+                <td>This middleware is about assert user can access and modify a project that he created</td>
+            </tr>
+        </tbody>
+    </table>
+    <h2 id="routes">Routes</h2>
+    <h3 id="usersts">users.ts</h3>
+    <p>Base url : /api/user</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Verb</th>
+                <th>Url</th>
+                <th>Actions</th>
+                <th>Middlewares</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>POST</td>
+                <td>/register</td>
+                <td>Create a new user. Body = {lastname,firstname,email,password,title,description}</td>
+                <td>None</td>
+            </tr>
+            <tr>
+                <td>POST</td>
+                <td>/login</td>
+                <td>Log a user. Body = { email, password }.After that user receive a token in the response.The token is used to log the user and access ressources</td>
+                <td>None</td>
+            </tr>
+        </tbody>
+    </table>
+    <h3 id="projectsts">projects.ts</h3>
+    <p>Base url : /api/project</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Verb</th>
+                <th>Url</th>
+                <th>Actions</th>
+                <th>Middlewares</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>POST</td>
+                <td>/</td>
+                <td>Create a new project.Body = {name,description,stack,image?,project_link}</td>
+                <td>Auth</td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td>/</td>
+                <td>Get all projects of the current user</td>
+                <td>Auth</td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td>/:id</td>
+                <td>Get the specific project which match with &#39;id&#39;</td>
+                <td>Auth</td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td>/getUserProject/:email</td>
+                <td>Get all visible projects of the user with email : &#39;email&#39;</td>
+                <td>None</td>
+            </tr>
+            <tr>
+                <td>PUT</td>
+                <td>/:id</td>
+                <td>Update a specific project. Body = {name,description,stack,image?,project_link}</td>
+                <td>Auth UserAccessProject</td>
+            </tr>
+            <tr>
+                <td>PUT</td>
+                <td>/visibility/:id</td>
+                <td>Change the project&#39;s visibility . Body = {visibility}</td>
+                <td>Auth UserAccessProject</td>
+            </tr>
+            <tr>
+                <td>DELETE</td>
+                <td>/:id</td>
+                <td>Delete a specific project</td>
+                <td>Auth UserAccessProject</td>
+            </tr>
+        </tbody>
+    </table>
+    <h2 id="somes-helpers">Somes helpers</h2>
+    <p>They are located at the ./src/helpers directory.</p>
+    <h4 id="signts">sign.ts</h4>
+    <p>Is about signing datas to get jwt token using the {id,email,isAdmin} of user</p>
+    <h4 id="multerconfigts">multerConfig.ts</h4>
+    <p>Is about configurations to files uploads</p>
+    <h4 id="generalhelpersts">generalHelpers.ts</h4>
+    <p>It return the image link with the image name extracted from the request</p>
+    <h4 id="validators">validators</h4>
+    <p>This directory contains two files : project.ts and user.ts.The user.ts export a function to validate user format data.The project.ts file do the same thing but in the case of project</p>
+    <h2 id="cron-job">Cron job</h2>
+    <p>I create a cron task to backup the db.sqlite file in a directory called db_backups.It save the db every first day of the mounth cron.js located at the ./src/cron.js.</p>
+</body>
+
+</html>

@@ -15,6 +15,7 @@ const projects_1 = __importDefault(require("./routes/projects"));
 //connection()
 //serve static files at ./src/uploads
 app.use('/file', express_1.default.static('./src/uploads'));
+app.use(express_1.default.static('./src/public'));
 //middlewares 
 app.use(express_1.default.json());
 // route app
