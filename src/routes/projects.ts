@@ -22,7 +22,7 @@ router.post('/',[auth,upload.single('image')], async function (req : Request, re
     req.body.UserId = req.user.data.id
 
     if(req.file){
-        req.body.image = req.file.filename
+        req.body.image = getImageLink(req.file.filename)
     }
     try {
         let project = await Project.create(req.body)

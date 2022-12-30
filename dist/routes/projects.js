@@ -33,7 +33,7 @@ router.post('/', [auth_1.default, multerConfig_1.default.single('image')], funct
         req.body.image = '';
         req.body.UserId = req.user.data.id;
         if (req.file) {
-            req.body.image = req.file.filename;
+            req.body.image = (0, generalHelpers_1.default)(req.file.filename);
         }
         try {
             let project = yield Project_1.default.create(req.body);
