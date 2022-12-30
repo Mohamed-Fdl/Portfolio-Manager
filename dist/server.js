@@ -21,7 +21,7 @@ app.use(express_1.default.json());
 // route app
 app.use('/api/user', users_1.default);
 app.use('/api/project', projects_1.default);
-const PORT = process.env.NODE_ENV = "development" ? process.env.MY_PORT : process.env.PORT;
+const PORT = process.env.PORT || process.env.MY_PORT;
 app.listen(PORT, () => {
     console.log(`Server Running here :  http://localhost:${PORT}`);
 });
